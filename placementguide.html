@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Placement Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card, .drive-listing, .alumni-profile, .blog-post {
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-top: 1rem;
+        }
+
+        .card h3, .drive-listing h3, .alumni-profile h3, .blog-post h3 {
+            margin-top: 0;
+        }
+
+        .alumni-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .alumni-profile img {
+            border-radius: 50%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>College Placement Portal</h1>
+        <nav>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#drives">Placement Drives</a></li>
+                <li><a href="#alumni">Alumni Connect</a></li>
+                <li><a href="#blog">Student Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="dashboard">
+            <h2>Welcome to the Dashboard!</h2>
+            <p>Your personalized updates and key information will appear here.</p>
+            <div class="card">
+                <h3>Upcoming Drives</h3>
+                <ul id="upcoming-drives-list">
+                    <li><a href="#">Company A - Software Engineer</a></li>
+                    <li><a href="#">Company B - Data Analyst</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Latest Blog Post</h3>
+                <p>"My Interview Experience at TechCorp"</p>
+                <a href="#">Read More</a>
+            </div>
+        </section>
+
+        <section id="drives">
+            <h2>Placement Drives</h2>
+            <div class="drive-listing">
+                <h3>Company A</h3>
+                <p>Role: Software Engineer</p>
+                <p>Eligibility: B.Tech (CS/IT)</p>
+                <a href="#">View Details & Apply</a>
+            </div>
+            <div class="drive-listing">
+                <h3>Company B</h3>
+                <p>Role: Data Analyst</p>
+                <p>Eligibility: B.Sc/M.Sc (Statistics/Math)</p>
+                <a href="#">View Details & Apply</a>
+            </div>
+        </section>
+
+        <section id="alumni">
+            <h2>Alumni Connect</h2>
+            <p>Connect with successful alumni for mentorship and guidance.</p>
+            <div class="alumni-profile">
+                <img src="https://via.placeholder.com/150" alt="Alumni Profile Picture">
+                <h3>John Doe</h3>
+                <p>Google | Class of 2018</p>
+                <button>Message</button>
+            </div>
+        </section>
+
+        <section id="blog">
+            <h2>Student Blog</h2>
+            <article class="blog-post">
+                <h3>My Internship at XYZ Inc.</h3>
+                <p>By Jane Smith</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+                <a href="#">Read Full Post</a>
+            </article>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 College Placement Portal</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Website loaded successfully!");
+            // You can add more JavaScript functionality here to make the site dynamic.
+            // For example, fetching data from an API or handling form submissions.
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { db } from '../lib/db';
 import { 
   GraduationCap, 
   Mail, 
@@ -18,6 +19,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -30,10 +32,39 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login/signup process
-    onLogin(formData.role);
-    // Redirect to dashboard after successful login/signup
-    navigate('/dashboard');
+    setError('');
+
+    if (isLogin) {
+      const res = db.loginUser(formData.email, formData.password, formData.role);
+      if (res.success && res.user) {
+        onLogin(res.user.role);
+        navigate('/dashboard');
+      } else {
+        setError(res.error || 'Invalid credentials.');
+      }
+    } else {
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match.');
+        return;
+      }
+      const res = db.registerUser({
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
+        name: formData.name,
+        college: formData.college || undefined,
+        graduationYear: formData.graduationYear || undefined
+      });
+      if (res.success) {
+        const loginRes = db.loginUser(formData.email, formData.password, formData.role);
+        if (loginRes.success && loginRes.user) {
+          onLogin(loginRes.user.role);
+          navigate('/dashboard');
+        }
+      } else {
+        setError(res.error || 'Signup failed.');
+      }
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -70,6 +101,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         {/* Form */}
         <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-lg border border-red-200 text-sm font-medium">
+                {error}
+              </div>
+            )}
             {/* Role Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

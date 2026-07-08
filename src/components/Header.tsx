@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { GraduationCap, User, Menu, X } from 'lucide-react';
+import { GraduationCap, User, Menu, X, LogOut } from 'lucide-react';
 
 interface HeaderProps {
   userRole: 'student' | 'alumni' | 'tpo' | null;
@@ -12,15 +12,19 @@ const Header: React.FC<HeaderProps> = ({ userRole, setUserRole }) => {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Companies', href: '/companies' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Alumni Connect', href: '/alumni-connect' },
+    { name: 'Home', href: '/' }
   ];
 
-  if (userRole === 'tpo') {
-    navigation.push({ name: 'TPO Panel', href: '/tpo-panel' });
+  if (userRole) {
+    navigation.push(
+      { name: 'Dashboard', href: '/dashboard' },
+      { name: 'Companies', href: '/companies' },
+      { name: 'Blog', href: '/blog' },
+      { name: 'Alumni Connect', href: '/alumni-connect' }
+    );
+    if (userRole === 'tpo') {
+      navigation.push({ name: 'TPO Panel', href: '/tpo-panel' });
+    }
   }
 
   return (
@@ -56,19 +60,33 @@ const Header: React.FC<HeaderProps> = ({ userRole, setUserRole }) => {
 
           {/* User Role Selector & Profile */}
           <div className="hidden md:flex items-center space-x-4">
-            <select
-              value={userRole || ''}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserRole(e.target.value as 'student' | 'alumni' | 'tpo' | null)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select Role</option>
-              <option value="student">Student</option>
-              <option value="alumni">Alumni</option>
-              <option value="tpo">TPO</option>
-            </select>
-            <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors">
-              <User className="h-5 w-5" />
-            </button>
+            {userRole ? (
+              <>
+                <select
+                  value={userRole}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserRole(e.target.value as 'student' | 'alumni' | 'tpo' | null)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value="student">Student</option>
+                  <option value="alumni">Alumni</option>
+                  <option value="tpo">TPO</option>
+                </select>
+                <button 
+                  onClick={() => setUserRole(null)}
+                  className="bg-red-50 hover:bg-red-100 text-red-600 p-2.5 rounded-lg transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </>
+            ) : (
+              <Link 
+                to="/login"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:from-blue-700 hover:to-purple-700 transition-colors shadow-sm"
+              >
+                Login / Register
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -100,16 +118,36 @@ const Header: React.FC<HeaderProps> = ({ userRole, setUserRole }) => {
               ))}
             </nav>
             <div className="mt-4 pt-4 border-t border-gray-200">
-              <select
-                value={userRole || ''}
-               onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserRole(e.target.value as 'student' | 'alumni' | 'tpo' | null)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Role</option>
-                <option value="student">Student</option>
-                <option value="alumni">Alumni</option>
-                <option value="tpo">TPO</option>
-              </select>
+              {userRole ? (
+                <div className="flex items-center space-x-2">
+                  <select
+                    value={userRole}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setUserRole(e.target.value as 'student' | 'alumni' | 'tpo' | null)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  >
+                    <option value="student">Student</option>
+                    <option value="alumni">Alumni</option>
+                    <option value="tpo">TPO</option>
+                  </select>
+                  <button 
+                    onClick={() => {
+                      setUserRole(null);
+                      setIsMenuOpen(false);
+                    }}
+                    className="bg-red-50 hover:bg-red-100 text-red-600 p-2.5 rounded-lg transition-colors"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link 
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 rounded-lg text-sm font-semibold"
+                >
+                  Login / Register
+                </Link>
+              )}
             </div>
           </div>
         )}

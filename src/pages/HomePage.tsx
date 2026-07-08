@@ -9,7 +9,11 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-const HomePage = () => {
+interface HomePageProps {
+  userRole: 'student' | 'alumni' | 'tpo' | null;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ userRole }) => {
   const features = [
     {
       icon: Building2,
@@ -59,7 +63,7 @@ const HomePage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/login"
+                to={userRole ? "/dashboard" : "/login"}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
               >
                 Explore Opportunities
@@ -155,7 +159,7 @@ const HomePage = () => {
             Join thousands of students who have successfully landed their dream jobs through our platform.
           </p>
           <Link
-            to="/login"
+            to={userRole ? "/dashboard" : "/login"}
             className="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors"
           >
             Get Started Today
